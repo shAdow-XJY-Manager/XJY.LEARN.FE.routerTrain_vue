@@ -1,43 +1,33 @@
 <template>
-  <br>
-  <div> PageSevenChildren 组件路由守卫 / img动态src / 监听路由变化 </div>
-  <br>
-  <img alt="sevenChildren" :src="require('../assets/'+ srcPath + '.png')" style="width: 400px;height: 400px;">
+  <section class="panel">
+    <h3>子页面已渲染 · 图片 {{ imageNumber }}</h3>
+    <p class="muted">父页面保持显示，子页面读取 srcPath 并响应 Query 变化。</p>
+    <img
+      class="route-image"
+      :alt="`路由示例图片 ${imageNumber}`"
+      :src="require('../assets/' + imageNumber + '.png')"
+    />
+  </section>
 </template>
 
 <script>
 export default {
   name: "PageSevenChildren",
-  beforeRouteEnter (to,from,next) {
-    if(from.name !== 'pageSeven'){
-      next(vm => {
-        vm.$router.push('/')
-      })
-    }else {
-      next(true)
-    }
+  beforeRouteEnter(to, from, next) {
+    if (from.name !== "pageSeven" && from.name !== "pageSevenChildren") {
+      next({
+        path: "/",
+        query: {
+          notice: "子页面守卫：请先从 PageSix 进入 PageSeven，再打开子页面。",
+        },
+      });
+    } else next();
   },
-  data () {
-    return {
-      srcPath : "1"
-    }
+  computed: {
+    imageNumber() {
+      const n = Number(this.$route.query.srcPath);
+      return Number.isInteger(n) && n >= 1 && n <= 10 ? n : 1;
+    },
   },
-  created() {
-    this.srcPath = this.$route.query.srcPath
-    console.log(this.srcPath)
-  },
-  //监听路由变化，调用函数方法getPath
-  watch:{
-    '$route':'getPath'
-  },
-  methods:{
-    getPath(){
-      this.srcPath = this.$route.query.srcPath
-    }
-  }
-}
+};
 </script>
-
-<style scoped>
-
-</style>

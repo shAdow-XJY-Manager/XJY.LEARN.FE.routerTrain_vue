@@ -29,12 +29,12 @@ const routes = [
         component: pageThree
     },
     {
-        path: "/pageFour",
+        path: "/pageFour/:paramsPass?",
         name: "pageFour",
         component: pageFour
     },
     {
-        path: "/pageFive",
+        path: "/pageFive/:paramsPass?",
         name: "pageFive",
         component: pageFive,
     },
@@ -47,7 +47,7 @@ const routes = [
         beforeEnter: (to,from,next) => {
             //console.log(to.query)
             if(to.query.no === 'no') {
-                return next('/');
+                return next({path:'/',query:{notice:'单路由守卫已拦截：PageSix 不接受 no=no。请重试允许通过的入口。'}});
             }
             next();
         }
@@ -100,7 +100,7 @@ router.beforeEach((to,from,next)=>{
         if(from.path === '/pageSix' || from.path === '/pageSevenChildren'){
             return next();
         } else {
-            return next('/');
+            return next({path:'/',query:{notice:'全局守卫已拦截：请先进入 PageSix，再访问 PageSeven。'}});
         }
     }
     return next();

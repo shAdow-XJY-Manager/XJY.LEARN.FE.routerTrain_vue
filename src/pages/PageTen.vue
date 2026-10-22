@@ -1,22 +1,13 @@
 <template>
-  <div> 子路由 PageTen </div>
-  <br>
-  <button @click = "routeBack">路由返回Button</button>
-  <br>
-  <img alt="ten" src="../assets/10.png" style="width: 800px;height: 500px;">
+  <section class="panel">
+    <h3>PageTen · 子路由已激活</h3>
+    <p class="feedback" role="status">
+      当前父级 id：{{ $route.params.id }}，当前子页面：PageTen。
+    </p>
+    <img class="route-image" alt="子路由示例 10" src="../assets/10.png" />
+  </section>
 </template>
 
 <script>
-export default {
-  name: "PageTen",
-  methods:{
-    routeBack(){
-      this.$router.back()
-    }
-  }
-}
+export default { name: "PageTen" };
 </script>
-
-<style scoped>
-
-</style>

@@ -1,40 +1,32 @@
 <template>
-  <div>vue 3.0 / vue-router 4.x 路由跳转</div>
-  <div>
-    <button @click = "routeBack">路由返回Button</button>
-    {{pageInfo}}
-    <button @click = "routeTo">路由进入Button</button>
-  </div>
-  <img alt="two" src="../assets/2.png" style="width: 800px;height: 500px;">
+  <section class="panel">
+    <p class="eyebrow">Navigation</p>
+    <h2>02 · Composition API 导航</h2>
+    <p class="description">
+      useRouter() 提供同样的导航能力。继续前往参数实验。
+    </p>
+    <code class="code"
+      >const router = useRouter() router.push('/pageThree')</code
+    >
+    <div class="actions">
+      <button class="quiet" @click="routeBack">返回上一页</button
+      ><button class="primary" @click="routeTo"
+        >继续下一步</button
+      >
+    </div>
+  </section>
 </template>
 
 <script>
-import {useRouter} from "vue-router"
+import { useRouter } from "vue-router";
 export default {
   name: "PageTwo",
-  data(){
+  setup() {
+    const router = useRouter();
     return {
-      pageInfo : "pageTwo"
-    }
+      routeBack: () => router.back(),
+      routeTo: () => router.push("/pageThree"),
+    };
   },
-  setup () {
-    const router = useRouter()
-
-    const routeBack = () => {
-      router.back()
-    }
-    const routeTo = ()=>{
-      router.push("/pageThree")
-    }
-
-    return {
-      routeBack,
-      routeTo
-    }
-  }
-}
+};
 </script>
-
-<style scoped>
-
-</style>

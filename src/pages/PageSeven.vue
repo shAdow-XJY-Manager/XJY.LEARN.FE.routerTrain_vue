@@ -1,58 +1,56 @@
 <template>
-  <div>PageSeven 父子组件通过路由改变(可看网址完全改变) 非嵌套路由 </div>
-  <br>
-  <button @click = "routeBack">路由返回Button</button>
-  <br>
-  输入1~10(子页面的图片号)
-  <br>
-  {{pageInfo}}
-  <br>
-  <input type="text" v-model="pageInfo">
-  <br>
-  <button @click = "routeQueryTo">进入子页面——pageSevenChildren</button>
-  <br>
-  <button @click = "routeTo">进入新页面——pageEight</button>
-  <br>
-  <router-view></router-view>
+  <section class="panel">
+    <p class="eyebrow">04 / Nested Routes</p>
+    <h2>PageSeven · 父页面</h2>
+    <p class="description">
+      选择图片编号，让子路由接收 Query 并在父页面内渲染。也可以进入带 id
+      的动态路由。
+    </p>
+    <label class="field-label" for="image-number">子页面图片编号（1–10）</label
+    ><input
+      id="image-number"
+      type="number"
+      min="1"
+      max="10"
+      v-model="pageInfo"
+    />
+    <div class="actions">
+      <button class="primary" :disabled="!valid" @click="routeQueryTo">
+        打开子页面</button
+      ><router-link class="button" to="/pageEight_Nine_Ten/id1"
+        >进入动态路由</router-link
+      ><router-link class="button quiet" to="/pageSix"
+        >返回合法入口</router-link
+      >
+    </div>
+    <p v-if="!valid" class="feedback" role="status">请输入 1–10 之间的整数。</p>
+    <div class="nested"><router-view /></div>
+  </section>
 </template>
 
 <script>
-import {ref} from "vue";
-import {useRouter} from "vue-router";
-
 export default {
   name: "PageSeven",
-  setup (){
-    const router = useRouter();
-    const pageInfo = ref(7);
-
-    const routeBack = () => {
-      router.back()
-    }
-    const routeQueryTo = () => {
-      router.push({
-        path:'/pageSevenChildren',
-        query:{
-          srcPath: pageInfo.value
-        }
-      })
-    }
-    const routeTo = () => {
-      router.replace('/pageSeven')
-      router.push({
-        path:'/pageEight_Nine_Ten/id1',
-      })
-    }
-    return {
-      pageInfo,
-      routeBack,
-      routeQueryTo,
-      routeTo
-    }
-  }
-}
+  data() {
+    return { pageInfo: 7 };
+  },
+  computed: {
+    valid() {
+      return (
+        Number.isInteger(Number(this.pageInfo)) &&
+        Number(this.pageInfo) >= 1 &&
+        Number(this.pageInfo) <= 10
+      );
+    },
+  },
+  methods: {
+    routeQueryTo() {
+      if (this.valid)
+        this.$router.push({
+          path: "/pageSevenChildren",
+          query: { srcPath: this.pageInfo },
+        });
+    },
+  },
+};
 </script>
-
-<style scoped>
-
-</style>

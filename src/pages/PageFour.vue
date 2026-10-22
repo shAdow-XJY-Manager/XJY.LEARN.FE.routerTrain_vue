@@ -1,77 +1,59 @@
 <template>
-  <div>this.$route.query/params.参数名 接收参数 / vue 3.0 v-model / userRouter 传参</div>
-
-  <br>pageFourQueryInfo:{{pageFourQueryInfo}}
-  <br>pageFourParamsInfo:{{pageFourParamsInfo}}
-
-  <br>
-    <button @click = "routeBack">路由返回Button</button>
-  <br>
-    {{pageInfo}}
-  <br>
-    <input type="text" v-model="pageInfo" placeholder="输入传给pageFive的参数">
-  <br>
-    <button @click = "routeQueryTo">路由query传参Button</button>
-  <br>
-    <button @click = "routeParamTo">路由param传参Button</button>
-  <br>
-
-  <img alt="three" src="../assets/4.png" style="width: 400px;height: 400px;">
+  <section>
+    <h2>PageFour · 参数已接收</h2>
+    <div class="two-col">
+      <section class="panel">
+        <h3>接收到的消息</h3>
+        <label class="field-label">Query / queryPass</label
+        ><output class="value">{{
+          $route.query.queryPass || "本次没有 Query 参数"
+        }}</output
+        ><label class="field-label">Params / paramsPass</label
+        ><output class="value">{{
+          $route.params.paramsPass || "本次没有 Params 参数"
+        }}</output>
+      </section>
+      <section class="panel">
+        <h3>再传递一次</h3>
+        <p class="muted">通过 useRouter() 将新消息传给 PageFive。</p>
+        <label class="field-label" for="forward-message">下一条消息</label
+        ><input id="forward-message" v-model="message" maxlength="120" />
+        <div class="actions">
+          <button class="primary" @click="routeQueryTo">发送 Query</button
+          ><button @click="routeParamTo">发送 Params</button>
+        </div>
+        <code class="code"
+          >router.push({ name: 'pageFive', params: { paramsPass: message }
+          })</code
+        >
+      </section>
+    </div>
+    <div class="actions">
+      <router-link class="button quiet" to="/pageThree"
+        >返回参数实验</router-link
+      >
+    </div>
+  </section>
 </template>
 
 <script>
-import {ref} from "vue";
-import {useRouter} from "vue-router";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 export default {
   name: "PageFour",
-  data(){
-    return {
-      pageFourQueryInfo : "",
-      pageFourParamsInfo: ""
-    }
-  },
-  created() {
-    this.pageFourQueryInfo = this.$route.query.queryPass
-    this.pageFourParamsInfo = this.$route.params.paramsPass
-  },
-  setup(){
+  setup() {
     const router = useRouter();
-
-    const pageInfo = ref("")
-
-    const routeBack = () => {
-      router.go(-1)
-    }
-
-    const routeQueryTo = () => {
-      router.push({
-        path:"/pageFive", //或者 name:"pageFive",
-        query:{
-          queryPass:"传给PageFive的query参数:"+pageInfo.value
-        }
-      })
-    }
-
-    const routeParamTo = () => {
-      router.push({
-        name: "pageFive",
-        params:{
-          paramsPass:"传给PageFive的params参数:"+pageInfo.value
-        }
-      })
-    }
-
+    const message = ref("消息继续前进。");
     return {
-      pageInfo,
-      routeBack,
-      routeQueryTo,
-      routeParamTo
-    }
-
-  }
-}
+      message,
+      routeQueryTo: () =>
+        router.push({ path: "/pageFive", query: { queryPass: message.value } }),
+      routeParamTo: () =>
+        router.push({
+          name: "pageFive",
+          params: { paramsPass: message.value || "示例消息" },
+        }),
+    };
+  },
+};
 </script>
-
-<style scoped>
-
-</style>

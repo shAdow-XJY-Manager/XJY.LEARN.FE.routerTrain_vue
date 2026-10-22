@@ -1,64 +1,42 @@
 <template>
-  <div>created接收query参数 / useRoute接收params参数 / index.js中进入PageSix单路由守卫/拦截</div>
-
-  <br>pageFiveQueryInfo:{{pageFiveQueryInfo}}
-  <br>pageFiveParamsInfo:{{pageFiveParamsInfo}}
-
-  <br>
-  <button @click = "routeBack">路由返回Button</button>
-  <br>
-  <button @click = "routePathTo">路由Button:使用path被拦截</button>
-  <br>
-  <button @click = "routeNameTo">路由Button:使用name可通过</button>
-  <br>
-
-  <img alt="five" src="../assets/5.png" style="width: 800px;height: 500px;">
+  <section>
+    <h2>PageFive · 让守卫做一次判断</h2>
+    <p class="description">
+      下面两次导航都前往 PageSix。携带 no=no
+      的请求会被单路由守卫拦截，并返回目录。
+    </p>
+    <div class="two-col">
+      <section class="panel">
+        <h3>本页接收状态</h3>
+        <label class="field-label">Query / queryPass</label
+        ><output class="value">{{
+          $route.query.queryPass || "无 Query 参数，可从参数实验发送。"
+        }}</output
+        ><label class="field-label">Params / paramsPass</label
+        ><output class="value">{{
+          $route.params.paramsPass || "无 Params 参数，可从参数实验发送。"
+        }}</output>
+      </section>
+      <section class="panel">
+        <h3>对比两种导航结果</h3>
+        <p class="muted">通过时进入 PageSix；拦截时在目录显示原因。</p>
+        <div class="actions">
+          <router-link class="button primary" :to="{ name: 'pageSix' }"
+            >允许通过</router-link
+          ><router-link
+            class="button"
+            :to="{ path: '/pageSix', query: { no: 'no' } }"
+            >测试拦截</router-link
+          >
+        </div>
+        <code class="code"
+          >if (to.query.no === 'no') { return next('/') } next()</code
+        >
+      </section>
+    </div>
+  </section>
 </template>
 
 <script>
-import {useRoute,useRouter} from "vue-router";
-import {ref} from "vue";
-export default {
-  name: "PageFive",
-  data () {
-    return {
-      pageFiveQueryInfo: ""
-    }
-  },
-  created() {
-    this.pageFiveQueryInfo = this.$route.query.queryPass
-  },
-  setup () {
-    const route = useRoute();
-    const router = useRouter();
-    const pageFiveParamsInfo = ref(route.params.paramsPass);
-
-    const routeBack = () => {
-      router.back()
-    }
-    const routePathTo = () => {
-      router.push({
-        path:'/pageSix',
-        query:{
-          no:"no"
-        }
-      })
-    }
-    const routeNameTo = () => {
-      router.push({
-        name:'pageSix',
-      })
-    }
-    return {
-      pageFiveParamsInfo,
-      routeBack,
-      routePathTo,
-      routeNameTo
-    }
-  }
-}
+export default { name: "PageFive" };
 </script>
-
-<style scoped>
-
-</style>
