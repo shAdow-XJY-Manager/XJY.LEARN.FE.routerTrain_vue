@@ -1,3 +1,4 @@
+import { createLessonScrollBehavior } from './navigation.mjs';
 import {createRouter, createWebHashHistory} from "vue-router";
 const homePage = () => import("../pages/HomePage")
 const pageOne = () => import("../pages/PageOne")
@@ -91,6 +92,7 @@ const routes = [
 
 const router = createRouter({
     history: createWebHashHistory(),
+    scrollBehavior: createLessonScrollBehavior(),
     routes: routes
 })
 

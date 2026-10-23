@@ -426,3 +426,8 @@ p {
     scroll-behavior: auto !important;
   }
 }
+
+/* Scripted route focus is visible without animating or changing layout. */
+#lesson-content h2:focus-visible,
+#lesson-content h3:focus-visible,
+#lesson-content:focus-visible { outline:2px solid var(--accent); outline-offset:6px; }

@@ -23,7 +23,7 @@
           从页面导航到参数、守卫与嵌套路由，逐步探索。下方实时状态会跟随每一次操作更新。
         </p>
       </header>
-      <router-view />
+      <div id="lesson-content" tabindex="-1"><router-view /></div>
       <aside class="inspector" aria-label="当前路由状态">
         <h3>LIVE ROUTE / 实时路由</h3>
         <dl>
